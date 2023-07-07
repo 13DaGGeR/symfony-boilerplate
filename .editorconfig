@@ -1,0 +1,8 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = tab
+
+[*.svg]
+indent_style = tab

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+vendor/bin/phpstan analyse src tests && \
+  vendor/bin/rector -n --no-progress-bar && \
+  export PHP_CS_FIXER_IGNORE_ENV=1 && \
+  ./vendor/bin/php-cs-fixer fix --dry-run --rules=@PSR12 && \
+  echo 'ok'

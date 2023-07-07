@@ -1,0 +1,28 @@
+#name: Deploy
+#run-name: Deploy on server initiated by ${{ github.actor }}
+#on:
+#  [ push, pull_request ]
+#jobs:
+#    build-bundle-and-upload:
+#        runs-on: ubuntu-latest
+#        if: github.ref == 'refs/heads/master'
+#        steps:
+#            -   name: Setup ssh
+#                run: |
+#                    mkdir -p ~/.ssh/
+#                    echo "${{ secrets.SSH_KEY }}" > ~/.ssh/key
+#                    chmod 600 ~/.ssh/key
+#                    cat >> ~/.ssh/config <<END
+#                    Host ${{ secrets.HOST }}
+#                        User me
+#                        IdentityFile ~/.ssh/key
+#                        StrictHostKeyChecking=no
+#                    END
+#            -   name: git pull
+#                run: ssh ${{ secrets.HOST }} 'cd ${{ vars.DEPLOY_DIR }}; git pull'
+#            -   name: composer
+#                run: ssh ${{ secrets.HOST }} 'cd ${{ vars.DEPLOY_DIR }}; export APP_ENV=prod; composer install --no-dev --optimize-autoloader'
+#            -   name: yarn build
+#                run: ssh ${{ secrets.HOST }} 'cd ${{ vars.DEPLOY_DIR }}; yarn install && yarn build'
+#            -   name: prepare app
+#                run: ssh ${{ secrets.HOST }} 'cd ${{ vars.DEPLOY_DIR }}; composer dump-env prod && php bin/console --no-interaction doctrine:migrations:migrate'
